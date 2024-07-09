@@ -1,5 +1,4 @@
 <script setup>
-    import { defineProps } from 'vue';
     import { useRouter } from 'vue-router';
     const router = useRouter();
     const props = defineProps({
@@ -46,7 +45,7 @@
     <!-- Card 1 -->
     <div v-for="(product, index) in products" :key="index" class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <a @click.prevent="selectProduct(product.keycodigo, product.nombre)" href="">
-            <img class="p-8 rounded-t-lg w-full" :src="product.url_images" alt="product image" />
+            <img class="rounded-t-lg w-full" :src="product.url_images" alt="product image" />
         </a>
         <div class="px-5 pb-5">
             <a href="#">

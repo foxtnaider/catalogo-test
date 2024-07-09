@@ -1,17 +1,39 @@
 <script setup>
-    import { ref, defineProps } from "vue";
-    const products = ref([]);
+    import { ref } from "vue";
+    // const products = ref([]);
     const props = defineProps(['product']);
+    const formatPrice = (price, currency) => {
+        // Convertir el valor a un número
+        const priceNumber = parseFloat(price);
+        
+        // Determinar el locale basado en la moneda
+        const locale = currency === 'USD' ? 'en-US' : 'es-VE';
+        
+        // Formatear el número como moneda
+        const formatter = new Intl.NumberFormat(locale, {
+            style: 'currency',
+            currency: currency,
+            minimumFractionDigits: 2,
+            // Opciones específicas para la moneda VES
+            ...(currency === 'VES' && { 
+            currencyDisplay: 'narrowSymbol',
+            maximumFractionDigits: 2 
+            }),
+        });
+        
+        return formatter.format(priceNumber);
+    };
 </script>
 <template>
+    <!-- <pre>{{ product }}</pre> -->
     <div class="bg-gray-100 text-gray-900 min-h-screen flex flex-col items-center dark:bg-gray-900 dark:text-white">
         <div class=" w-full bg-white dark:bg-gray-700 shadow-md rounded-lg overflow-hidden flex flex-col md:flex-row">
             <div class="w-full md:w-1/3 p-4">
                 <img :src="product?.url_images" alt="Pasta Image" class="w-full h-auto rounded-lg">
             </div>
             <div class="w-full md:w-2/3 p-4">
-                <h1 class="text-2xl font-bold mb-2 dark:text-white">Pasta Trenzados del Orinoco</h1>
-                <p class="text-sm mb-4 dark:text-white">Ref: 15.50</p>
+                <h1 class="text-2xl font-bold mb-2 dark:text-white">{{ product?.nombre }}</h1>
+                <p class="text-sm mb-4 dark:text-white">Ref {{ formatPrice(product?.precio, 'USD') }}</p>
                 <hr>
                 <ul class="list-disc pl-4 mb-4 text-sm dark:text-white">
                     <li>Peso: Cada bulto contiene 10 paquetes de 500g cada uno, sumando un total de 5kg.</li>
